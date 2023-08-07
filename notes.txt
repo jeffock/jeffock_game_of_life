@@ -1,0 +1,27 @@
+Cell::
+
+States: Iphase (non-replicating), Mphase (replicating), Aphase (dead)
+- Iphase: can feed, cannot replicate
+- Mphase: cannot feed, can replicate
+- Aphase: cannot feed, cannot replicate
+More:
+- Cell's default state is Iphase
+- Cell's only enter Mphase when they have fed on 3 other cell
+- Cell's enter Aphase if they haven't fed on 1 full cell in a time period
+
+Actions (only cells touching on the grid): Compete, Ignore, Cooperate
+- Compete: traits determine whether a cell feeds or is fed-on (plus 10% random chance)
+- Ignore: cells ignore each other for a set time before checking to compete, ignore, or cooperate again
+- Cooperate: if more than 2 cells are all touching each other, 2 <= x <= n-1 (n=total cells in mutual contact) cells can choose to cooperate and split the remaining cell/s
+
+Actions (if no cells touching or if cell decides to ignore): +x, -x, +y, -y
+
+Traits (inheritable): competitive, ignoretime, movefrequency, movespeed, phasechange
+- Competitive: likelihood to cooperate + likelihood to (attempt) feed + likelihood to ignore = 1
+- IgnoreTime: ticks the cell ignores after deciding to ignore
+- MoveFrequency: how often the cell utilizes move actions
+- MoveSpeed: how many tiles a cell moves per move action
+	- NOTE: each move action will consume the same amound of energy (number of fed-on cells) regardless of trait value
+- PhaseChange: likelihood of cell to enter Mphase after having sufficient energy
+
+Mutations: each iteration (when formed) will have a 5% chance of +/- unit on any trait (traits mutate in a mutually exclusive manner)
