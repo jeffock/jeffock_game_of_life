@@ -5,12 +5,13 @@ import numpy as np
 COLOR_BG = (10,10,10)
 COLOR_GRID = (40,40,40)
 COLOR_APHASE = (170,170,170)
+COLOR_MPHASE = (200,200,200)
 COLOR_IPHASE = (255,255,255)
 
 def update(screen, cells, size, traits, progress=False):
     # 0 is dead 1 is alive
     updated_cells = np.zeros((cells.shape[0], cells.shape[1]))
-    updated_traits = traits
+    updated_traits = traits.copy()
 
     for row, col in np.ndindex(cells.shape):
         # num alive touching: 
@@ -19,23 +20,81 @@ def update(screen, cells, size, traits, progress=False):
         
         # etc. rest of logic
         if cells[row, col] == 1:
-            if alive < 2 or alive > 3:
-                if progress:
-                    color = COLOR_APHASE
-            elif 2 <= alive <= 3:
-                updated_cells[row, col] = 1
-                if progress:
-                    color = COLOR_IPHASE
-        else:
-            if alive == 3:
-                updated_cells[row, col] = 1
-                if progress:
-                    color = COLOR_IPHASE
-        #if progress, update colors
+            trait = traits[row, col]
+
+            feed = feed_check(trait)
+            move = move_check(trait)
+
+            if feed == 0:
+                # decide who feeds
+            elif feed == 1:
+                # do nothing
+            else:
+                # cooperate
+            
+            # make sure to edit the traits as well when moving
+            # original tile can remain the same but new tile must update
+            # cannot move onto occupied tile
+            if move == 0:
+                # +x
+            elif move == 1:
+                # -x
+            elif move == 2:
+                # +y
+            elif move == 3:
+                # -y
+            else:
+                # don't move
+
+            # mutate
+            for i, v in enumerate(trait):
+                random_num = np.random.randint(1, 101)
+                plusminus = np.random.randint(1, 3)
+                
+                if i == 0 and plusminus == 1:
+                    trait[i] = v + (v*0.1)
+                    trait[1] = trait[1] - (v*0.1)
+                elif i == 0 and plusminus == 2:
+                    trait[i] = v - (v*0.1)
+                    trait[1[ = trait[1] + (v*0.1)
+
+                if i == 2 and plusminus == 1:
+                    trait[i] = v + (v*0.1)
+                elif i == 2 and plusminus == 2:
+                    trait[i] = v - (v*0.1)
+
+                if i == 3 and plusminus == 1:
+                    trait[i] = v + 1
+                elif i == 3 and plusminus == 2:
+                    trait[i] = v - 1
+                
+                if i == 4 and plusminus == 1:
+                    trait[i] = v + 1
+                elif i == 4 and plusminus == 2:
+                    trait[i] = v - 1
+
+                if i == 5 and plusminus == 1:
+                    trait[i] = v + 1
+                elif i == 5 and plusminus == 2:
+                    trait[i] = v - 1
+            
+            updated_traits[row, col] = trait
 
         pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
 
     return updated_cells, updated_traits
+
+def feed_check(trait):
+    # 0 = compete, 1 = ignore, 2 = coop
+    output = 1
+
+    return output
+
+def move_check(trait):
+    # 0 = +x, 1 = -x, 2 = +y, 3 = -y, 4 = no movement
+    output = 4
+
+    return output
 
 def main():
     pygame.init()
@@ -43,7 +102,8 @@ def main():
 
     cells = np.zeros((60, 80))
 
-    trait_defaults = np.array([0.45, 0.45, 0.1, 3, 1, 1, 0.5])
+    # coop, feed, ignore, ignoret, movef, moves, phasec
+    trait_defaults = np.array([0.5, 0.5, 0.1, 3, 1, 1, 0.5])
     traits = np.array([[trait_defaults.copy() for i in range(80)] for j in range(60)])
 
     screen.fill(COLOR_GRID)
