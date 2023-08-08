@@ -51,32 +51,33 @@ def update(screen, cells, size, traits, progress=False):
                 random_num = np.random.randint(1, 101)
                 plusminus = np.random.randint(1, 3)
                 
-                if i == 0 and plusminus == 1:
-                    trait[i] = v + (v*0.1)
-                    trait[1] = trait[1] - (v*0.1)
-                elif i == 0 and plusminus == 2:
-                    trait[i] = v - (v*0.1)
-                    trait[1[ = trait[1] + (v*0.1)
+                if random_num <= 5:
+                    if i == 0 and plusminus == 1:
+                        trait[i] = v + (v*0.1)
+                        trait[1] = trait[1] - (v*0.1)
+                    elif i == 0 and plusminus == 2:
+                        trait[i] = v - (v*0.1)
+                        trait[1[ = trait[1] + (v*0.1)
 
-                if i == 2 and plusminus == 1:
-                    trait[i] = v + (v*0.1)
-                elif i == 2 and plusminus == 2:
-                    trait[i] = v - (v*0.1)
+                    if i == 2 and plusminus == 1:
+                        trait[i] = v + (v*0.1)
+                    elif i == 2 and plusminus == 2:
+                        trait[i] = v - (v*0.1)
 
-                if i == 3 and plusminus == 1:
-                    trait[i] = v + 1
-                elif i == 3 and plusminus == 2:
-                    trait[i] = v - 1
+                    if i == 3 and plusminus == 1:
+                        trait[i] = v + 1
+                    elif i == 3 and plusminus == 2:
+                        trait[i] = v - 1
                 
-                if i == 4 and plusminus == 1:
-                    trait[i] = v + 1
-                elif i == 4 and plusminus == 2:
-                    trait[i] = v - 1
+                    if i == 4 and plusminus == 1:
+                        trait[i] = v + 1
+                    elif i == 4 and plusminus == 2:
+                        trait[i] = v - 1
 
-                if i == 5 and plusminus == 1:
-                    trait[i] = v + 1
-                elif i == 5 and plusminus == 2:
-                    trait[i] = v - 1
+                    if i == 5 and plusminus == 1:
+                        trait[i] = v + 1
+                    elif i == 5 and plusminus == 2:
+                        trait[i] = v - 1
             
             updated_traits[row, col] = trait
 
