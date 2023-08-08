@@ -22,8 +22,8 @@ def update(screen, cells, size, traits, progress=False):
         if cells[row, col] == 1:
             trait = traits[row, col]
 
-            feed = feed_check(trait)
-            move = move_check(trait)
+            feed = feed_check(trait, updated_cells, row, col)
+            repl = replicate_check(trait)
 
             if feed == 0:
                 # decide who feeds
@@ -32,20 +32,47 @@ def update(screen, cells, size, traits, progress=False):
             else:
                 # cooperate
             
+            if repl == 0:
+                # repl
+            else:
+                # no repl
+
+            move = move_check(trait, updated_cells, row, col)
+            
             # make sure to edit the traits as well when moving
             # original tile can remain the same but new tile must update
             # cannot move onto occupied tile
             if move == 0:
                 # +x
-                pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
+                updated_cells[row, col] = 0
+                updated_cells[row+1, col] = 1
+                if progress:
+                    color = COLOR_IPHASE
+                pygame.draw.rect(screen, color, (col*size, (row+1)*size, size-1, size-1))
             elif move == 1:
                 # -x
+                updated_cells[row, col] = 0
+                updated_cells[row-1, col] = 1
+                if progress:
+                    color = COLOR_IPHASE
+                pygame.draw.rect(screen, color, (col*size, (row-1)*size, size-1, size-1))
             elif move == 2:
                 # +y
+                updated_cells[row, col] = 0
+                updated_cells[row, col+1] = 1
+                if progress:
+                    color = COLOR_IPHASE
+                pygame.draw.rect(screen, color, ((col+1)*size, row*size, size-1, size-1))
             elif move == 3:
                 # -y
+                updated_cells[row, col] = 0
+                updated_cells[row, col-1] = 1
+                if progress:
+                    color = COLOR_IPHASE
+                pygame.draw.rect(screen, color, ((col-1)*size, row*size, size-1, size-1))
             else:
                 # don't move
+                pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
 
             # mutate
             for i, v in enumerate(trait):
@@ -86,15 +113,21 @@ def update(screen, cells, size, traits, progress=False):
 
     return updated_cells, updated_traits
 
-def feed_check(trait):
+def feed_check(trait, u_cell_array, r, c):
     # 0 = compete, 1 = ignore, 2 = coop
     output = 1
 
     return output
 
-def move_check(trait):
+def move_check(trait, u_cell_array, r, c):
     # 0 = +x, 1 = -x, 2 = +y, 3 = -y, 4 = no movement
     output = 4
+
+    return output
+
+def replicate_check(trait):
+    # 0 = repl, 1 = no repl
+    output = 1
 
     return output
 
