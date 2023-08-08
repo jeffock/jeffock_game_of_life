@@ -37,6 +37,7 @@ def update(screen, cells, size, traits, progress=False):
             # cannot move onto occupied tile
             if move == 0:
                 # +x
+                pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
             elif move == 1:
                 # -x
             elif move == 2:
@@ -81,7 +82,7 @@ def update(screen, cells, size, traits, progress=False):
             
             updated_traits[row, col] = trait
 
-        pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
+        #pygame.draw.rect(screen, color, (col*size, row*size, size-1, size-1))
 
     return updated_cells, updated_traits
 
